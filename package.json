@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node src/migrate_strapi.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -14,6 +15,7 @@
     "@sanity/import": "^1.149.9",
     "@sanity/schema": "^1.149.4",
     "cheerio": "^1.0.0-rc.3",
+    "get-random-values-esm": "^1.0.0",
     "jsdom": "^16.2.2",
     "sanitize-html": "^1.22.1",
     "slugify": "^1.4.0",

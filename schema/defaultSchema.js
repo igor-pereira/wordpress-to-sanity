@@ -10,7 +10,7 @@ module.exports = Schema.compile({
         {
           title: 'Title',
           type: 'string',
-          name: 'title'
+          name: 'title',
         },
         {
           title: 'Body',
@@ -23,9 +23,9 @@ module.exports = Schema.compile({
                 {
                   name: 'link',
                   type: 'url',
-                  validation: Rule => Rule.uri({allowRelative: true})
-                }
-              ]
+                  validation: (Rule) => Rule.uri({allowRelative: true}),
+                },
+              ],
             },
             {
               name: 'code',
@@ -35,12 +35,12 @@ module.exports = Schema.compile({
                 {
                   title: 'Code',
                   name: 'code',
-                  type: 'text'
+                  type: 'text',
                 },
                 {
                   name: 'language',
                   title: 'Language',
-                  type: 'string'
+                  type: 'string',
                 },
                 {
                   title: 'Highlighted lines',
@@ -49,15 +49,15 @@ module.exports = Schema.compile({
                   of: [
                     {
                       type: 'number',
-                      title: 'Highlighted line'
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    }
-  ]
+                      title: 'Highlighted line',
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+  ],
 })
