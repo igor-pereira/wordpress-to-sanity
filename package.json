@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node src/migrate_strapi.js",
+    "start": "node src/migrate_csv_strapi.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
