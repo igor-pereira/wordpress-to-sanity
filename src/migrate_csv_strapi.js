@@ -25,21 +25,21 @@ blogPosts.forEach((post) => {
     jsonData.slug = {_type: 'slug', current: post.slug}
   }
   jsonData.date = convertToISO8601(post.publish_date)
-  jsonData.content = post.post_body ? parseBody(post.post_body) : undefined
-  jsonData.excerpt = post.post_summary
-    ? post.post_summary.replace(/(<([^>]+)>)|\&nbsp;/gi, '')
+  jsonData.content = post.content ? parseBody(post.content) : undefined
+  jsonData.excerpt = post.short_description
+    ? post.short_description.replace(/(<([^>]+)>)|\&nbsp;/gi, '')
     : undefined
 
-  if (post.featured_image) {
+  if (post.image) {
     jsonData.coverImage = {
       _type: 'image',
-      _sanityAsset: `image@${post.featured_image}`,
+      _sanityAsset: `image@${`${post.image}`}`,
     }
   }
 
   // Modify or process the jsonData here as needed
   jsonData.seo = {}
-  jsonData.seo.metaTitle = post.page_title || undefined
+  jsonData.seo.metaTitle = post.meta_title || undefined
   jsonData.seo.metaDesc = post.meta_description || undefined
 
   if (post.blog_post_author) {
@@ -64,12 +64,26 @@ blogPosts.forEach((post) => {
     }
   }
 
-  if (post.meta.tag_ids) {
+  if (post.categories) {
     jsonData.categories = []
-    post.meta.tag_ids.forEach((tag) => {
+    post.categories.split(',').forEach((category) => {
+      const categoryID = category
+        .toLowerCase()
+        .replace(/ /g, '-')
+        .replace(/[à-ü]|[À-Ü]/g, '')
+      if (!createdCategories.includes(categoryID)) {
+        const categoryLine = {
+          _type: 'postCategory',
+          _id: categoryID,
+          title: category,
+          slug: {_type: 'slug', current: categoryID},
+        }
+        writeStream.write(`${JSON.stringify(categoryLine)}\n`)
+        createdCategories.push(categoryID)
+      }
       jsonData.categories.push({
         _type: 'reference',
-        _ref: tag.toString(),
+        _ref: categoryID.toString(),
       })
     })
   }
