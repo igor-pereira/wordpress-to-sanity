@@ -2,7 +2,7 @@ const {JSDOM} = require('jsdom')
 const blockTools = require('@sanity/block-tools').default
 const sanitizeHTML = require('./sanitizeHTML')
 const defaultSchema = require('../../schema/lhrSchema')
-const { default: randomKey } = require('@sanity/block-tools/lib/util/randomKey')
+const {default: randomKey} = require('@sanity/block-tools/lib/util/randomKey')
 
 const blockContentType = defaultSchema
   .get('post')
@@ -51,6 +51,14 @@ function htmlToBlocks(html, options) {
               _type: 'image',
               _sanityAsset: `image@${el.getAttribute('src').replace(/^\/\//, 'https://')}`,
             })
+            /*return block({
+              // children: [],
+              _type: 'customImage',
+              alt: '',
+              caption: '',
+              filename: '',
+              _sanityAsset: `image@${el.getAttribute('src').replace(/^\/\//, 'https://')}`,
+            })*/
           }
 
           if (
@@ -71,7 +79,7 @@ function htmlToBlocks(html, options) {
       },
       {
         deserialize(el, next, block) {
-          if (el.tagName.toLowerCase()  != 'a') {
+          if (el.tagName.toLowerCase() != 'a') {
             return undefined
           }
           //const linkEnabled = options.enabledBlockAnnotations.includes('link')
@@ -86,7 +94,7 @@ function htmlToBlocks(html, options) {
               _key: randomKey(12),
               _type: 'externalLink',
               href: href,
-              blank:true,
+              blank: true,
             }
             return {
               _type: '__annotation',
@@ -94,7 +102,9 @@ function htmlToBlocks(html, options) {
               children: next(el.childNodes),
             }
           }
-          return el.appendChild(el.ownerDocument.createTextNode(` (${href})`)) && next(el.childNodes)
+          return (
+            el.appendChild(el.ownerDocument.createTextNode(` (${href})`)) && next(el.childNodes)
+          )
         },
       },
     ],
